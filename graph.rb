@@ -17,19 +17,19 @@ num_lines = input[0].split(' ')[1]
 layout = []
 
 i=1
-#store each edge into an array of coordinates
+j=0
+#store each edge into an array of coordinates (both directions)
 while i<input.length
   village1 = input[i].split(' ')[0]
   village2 = input[i].split(' ')[1]
   color = input[i].split(' ')[2]
   type = input[i].split(' ')[3]
-  layout[i-1] = Edge.new(village1, village2, color, type, 0)
+  layout[j] = Edge.new(village1, village2, color, type, 0)
+  j+=1
+  layout[j] = Edge.new(village2, village1, color, type, 0)
+  j+=1
   i+=1
-end  
-
-# layout.each do |edge|
-#   puts "Village1: #{edge.village1}, Village2: #{edge.village2}, Color: #{edge.color}, Type: #{edge.type_transit}, Visited: #{edge.visited}"
-# end
+end 
 
 def make_adjlists(layout)
   layout.each do |edge|
@@ -56,10 +56,6 @@ def dfs(layout)
   end
 end
 
-def print_edge(edge)
-    puts "Village1: #{edge.village1}, Village2: #{edge.village2}, Color: #{edge.color}, Type: #{edge.type_transit}, Visited: #{edge.visited}"
-end
-
 def dfs_visit(edge)
   edge.set_visited(1)
   edge.adj_list.each do |adj|
@@ -67,14 +63,37 @@ def dfs_visit(edge)
       adj.set_parent(edge)
       dfs_visit(adj)
     end
-    print_edge(edge)
   end
   edge.set_visited(2)
 end
 
+def storepath(layout, path)
+  n=0
+  p = layout[138].parent
+  while p != nil
+    str = "layout[138]"+".parent"*n
+    p = eval(str)
+    if p != nil
+      str += ".village2"
+      path.push(eval(str))
+    else 
+      break
+    end
+    n+=1
+  end
+  path.push('A')
+end
+
+def printpath(path)
+  n = path.size
+  while n >= 0
+    puts path[n]
+    n-=1
+  end
+end
+
+path = []
 dfs(layout)
-
-
-# layout.each do |edge|
-#   puts "Village1: #{edge.village1}, Village2: #{edge.village2}, Color: #{edge.color}, Type: #{edge.type_transit}, Visited: #{edge.visited}"
-# end
+storepath(layout, path)
+puts path.size
+printpath(path)

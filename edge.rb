@@ -25,9 +25,13 @@ class Edge
     @adj_list.push(vertex)
   end
 
+  def print_edge
+    puts "Village1: #{@village1}, Village2: #{@village2}, Color: #{@color}, Type: #{@type_transit}, Visited: #{@visited}, Parent: #{@parent} "
+  end
+
   def print_adjlist
     @adj_list.each do |edge|
-      puts "Village1: #{edge.village1}, Village2: #{edge.village2}, Color: #{edge.color}, Type: #{edge.type_transit}"
+      edge.print_edge
     end
   end
 
