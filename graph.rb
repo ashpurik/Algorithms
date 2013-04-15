@@ -29,20 +29,52 @@ end
 
 # layout.each do |edge|
 #   puts "Village1: #{edge.village1}, Village2: #{edge.village2}, Color: #{edge.color}, Type: #{edge.type_transit}, Visited: #{edge.visited}"
-# ends
+# end
 
-def make_adjlists
-  
-end
-
-def dfs
-  layout.each do |vertex|
-    if vertex.visited == 0
-      dfs_visit(vertex)
+def make_adjlists(layout)
+  layout.each do |edge|
+    start = edge.village1
+    ending = edge.village2
+    color = edge.color
+    type = edge.type_transit
+    layout.each do |surround| 
+      if surround.village1 == ending && surround.village2 != start
+        if surround.color == color || surround.type_transit == type
+          edge.add_adjlist(surround)
+        end
+      end
     end
   end
 end
 
-def dfs_visit(vertex)
-  vertex.visited = 1
+def dfs(layout)
+  make_adjlists(layout)
+  layout.each do |edge|
+    if edge.visited == 0
+      dfs_visit(edge)
+    end
+  end
 end
+
+def print_edge(edge)
+    puts "Village1: #{edge.village1}, Village2: #{edge.village2}, Color: #{edge.color}, Type: #{edge.type_transit}, Visited: #{edge.visited}"
+end
+
+def dfs_visit(edge)
+  edge.set_visited(1)
+  edge.adj_list.each do |adj|
+    if adj.visited == 0
+      adj.set_parent(edge)
+      dfs_visit(adj)
+    end
+    print_edge(edge)
+  end
+  edge.set_visited(2)
+end
+
+dfs(layout)
+
+
+# layout.each do |edge|
+#   puts "Village1: #{edge.village1}, Village2: #{edge.village2}, Color: #{edge.color}, Type: #{edge.type_transit}, Visited: #{edge.visited}"
+# end

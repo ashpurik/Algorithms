@@ -6,6 +6,7 @@ class Edge
   attr_accessor :type_transit
   attr_accessor :visited
   attr_accessor :parent
+  attr_accessor :adj_list
 
   def initialize(village1, village2, color, type_transit, visited)
     @village1 = village1
@@ -22,6 +23,20 @@ class Edge
 
   def add_adjlist(vertex)
     @adj_list.push(vertex)
+  end
+
+  def print_adjlist
+    @adj_list.each do |edge|
+      puts "Village1: #{edge.village1}, Village2: #{edge.village2}, Color: #{edge.color}, Type: #{edge.type_transit}"
+    end
+  end
+
+  def set_visited(state)
+    @visited = state
+  end
+
+  def set_parent(edge)
+    @parent = edge
   end
 
 end
