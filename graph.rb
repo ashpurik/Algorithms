@@ -112,6 +112,9 @@ end
 
 #initialize empty path, do dfs on it
 path = []
+time = Time.now
 dfs(layout)
+tot = Time.now - time
+puts tot
 storepath(layout, path)
 printpath(path)
